@@ -1,0 +1,4 @@
+---
+backuppc_client_server_ip: 0.0.0.0
+backuppc_client_type: tar # type of backup.
+
