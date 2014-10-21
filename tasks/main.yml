@@ -35,12 +35,18 @@
     - backuppc
     - ssh
 
+# - debug: var=sshkeyscan.stdout
+# - debug: var=sshkeyscan.stdout.split(' ')
+# - debug: var=sshkeyscan.stdout.split(' ')|first|length
+# - debug: var=sshkeyscan.stdout|truncate((sshkeyscan.stdout.split(' ')|first|length))
+# - debug: msg="{{ sshkeyscan.stdout.split(' ')[1] }} {{ sshkeyscan.stdout.split(' ')[2] }}"
+
 - name: add server key to authorized keys
   authorized_key:
-    user=backuppc
-    key="{{ sshkeyscan.stdout|truncate(sshkeyscan.stdout.split(' ')|first|length)|default('ssh-? UNKNOWN') }}"
-    key_options="from=\"{{ backuppc_client_server_ip }}\""
-  when: sshkeyscan|changed
+    user: backuppc
+    key: "{{ sshkeyscan.stdout.split(' ')[1] }} {{ sshkeyscan.stdout.split(' ')[2] }}"
+    key_options: "from=\"{{ backuppc_client_server_ip }}\""
+  when: sshkeyscan is defined and sshkeyscan|changed
   tags:
     - backuppc
     - ssh
