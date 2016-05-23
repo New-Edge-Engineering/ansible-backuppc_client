@@ -35,7 +35,7 @@
     - backuppc
     - ssh
 
-# - debug: var=sshkeyscan.stdout
+# - debug: var=sshkeyscan
 # - debug: var=sshkeyscan.stdout.split(' ')
 # - debug: var=sshkeyscan.stdout.split(' ')|first|length
 # - debug: var=sshkeyscan.stdout|truncate((sshkeyscan.stdout.split(' ')|first|length))
@@ -46,7 +46,7 @@
     user: backuppc
     key: "{{ sshkeyscan.stdout.split(' ')[1] }} {{ sshkeyscan.stdout.split(' ')[2] }}"
     key_options: "from=\"{{ backuppc_client_server_ip }}\""
-  when: sshkeyscan is defined and sshkeyscan|changed
+  when: sshkeyscan is defined and sshkeyscan.stdout is defined and sshkeyscan.stdout != "" and sshkeyscan|changed
   tags:
     - backuppc
     - ssh
